@@ -1,32 +1,24 @@
 require("dotenv").config();
-import express from 'express';
-import ConnectDB from './config/connectDB';
-import ContactModel from './model/contact.model';
+import express from "express";
+import connectDB from "./config/connectDB";
+import configViewEngine from "./config/viewEngine";
 
+// Init app
 const app = express();
 
 // connect to mongodb
-ConnectDB();
+connectDB();
+
+// config view engine
+configViewEngine(app);
 
 app.get("/", function (req, res, next) {
-  res.send("Hello world");
+  return res.render("main/master");
 });
 
-app.get("/test", async (req, res) => {
-  try {
-      let item = {
-        userId: '1234',
-        contactId: '34567',
-      };
-
-      let contact = await ContactModel.createNew(item);
-
-      res.send(contact);
-
-  } catch (error) {
-    console.log(error);
-  }
-})
+app.get("/register", function (req, res) {
+  return res.render("auth/loginRegister");
+});
 
 app.listen(process.env.APP_PORT, process.env.APP_HOST, function () {
   console.log("Connected to host " + process.env.APP_PORT);
