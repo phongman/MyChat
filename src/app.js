@@ -22,7 +22,7 @@ configViewEngine(app);
 app.use(express.urlencoded());
 
 // Enable flash message
-app.use(connectFlash);
+app.use(connectFlash());
 
 // init all routes
 initRoutes(app);
