@@ -17,6 +17,11 @@ let register = [
   }),
 ];
 
+let verifyAccount = (req, res) => {
+
+};
+
 module.exports = {
   register,
+  verifyAccount
 };
