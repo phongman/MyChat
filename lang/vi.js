@@ -9,14 +9,17 @@ export const transErrors = {
   account_in_use: "Email is used",
   account_deleted: "Account is deleted",
   account_not_active: "Account is not activated",
-  token_undefined: "Token undefined"
+  token_undefined: "Token undefined",
+  login_failed: "Email or password is wrong",
+  server_error: "Server error",
 };
 
 export const transSuccess = {
   user_created: (userEmail) => {
     return `Account <strong>${userEmail}<strong> created success`;
   },
-  user_activated: 'User activated'
+  user_activated: 'User activated',
+  login_success: "Login succeed",
 };
 
 export const transMail = {
