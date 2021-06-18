@@ -3,6 +3,10 @@ export const transValidation = {
   gender_incorrect: "Invalid gender",
   password_incorrect: "Invalid password",
   password_confirm_incorrect: "wrong password",
+  update_username: "Username must be less than 3-30 characters",
+  update_gender: "Opps ! Something went wrong",
+  update_address: "Address must be between 3-30 characters",
+  update_phone: "Phone in range 10-11 characters"
 };
 
 export const transErrors = {
@@ -22,7 +26,8 @@ export const transSuccess = {
   user_activated: 'User activated',
   login_success: "Login success",
   logout_success: "Logout success",
-  avatar_updated: "Update avatar success"
+  avatar_updated: "Update avatar success",
+  user_info_updated: "Update user info success",
 };
 
 export const transMail = {
