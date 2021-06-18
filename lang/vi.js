@@ -12,6 +12,7 @@ export const transErrors = {
   token_undefined: "Token undefined",
   login_failed: "Email or password is wrong",
   server_error: "Server error",
+  avatar_type_error: "File is not valid", 
 };
 
 export const transSuccess = {
@@ -20,7 +21,8 @@ export const transSuccess = {
   },
   user_activated: 'User activated',
   login_success: "Login success",
-  logout_success: "Logout success"
+  logout_success: "Logout success",
+  avatar_updated: "Update avatar success"
 };
 
 export const transMail = {
