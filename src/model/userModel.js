@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 let Schema = mongoose.Schema;
 
@@ -37,24 +37,27 @@ UserSchema.statics = {
   },
 
   findByEmail(email) {
-    return this.findOne({"local.email": email}).exec()
+    return this.findOne({ "local.email": email }).exec();
   },
 
   removeById(id) {
-    return this.deleteOne({_id: id}).exec();
+    return this.deleteOne({ _id: id }).exec();
   },
 
   findByToken(token) {
-    return this.findOne({"local.verifyToken": token}).exect();
+    return this.findOne({ "local.verifyToken": token }).exect();
   },
 
   verifyAccount(token) {
-    return this.updateOne({
-      "local.verifyToken": token
-    }, {
-      "local.isActive": true,
-      "local.verifyToken": null
-    }).exec()
+    return this.updateOne(
+      {
+        "local.verifyToken": token,
+      },
+      {
+        "local.isActive": true,
+        "local.verifyToken": null,
+      }
+    ).exec();
   },
 
   findUserById(id) {
@@ -62,18 +65,27 @@ UserSchema.statics = {
   },
 
   findByFacebookUid(uid) {
-    return this.findOne({"facebook.uid": uid}).exec();
+    return this.findOne({ "facebook.uid": uid }).exec();
   },
 
   findByGoogleUid(uid) {
-    return this.findOne({"google.uid": uid}).exec();
-  }
-}
+    return this.findOne({ "google.uid": uid }).exec();
+  },
+
+  updateUser(id, item) {
+    return this.updateOne(
+      {
+        _id: id,
+      },
+      item
+    ).exec();
+  },
+};
 
 UserSchema.methods = {
   comparePassword(password) {
     return bcrypt.compare(password, this.local.password);
-  }
-}
+  },
+};
 
 module.exports = mongoose.model("user", UserSchema);

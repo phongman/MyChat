@@ -30,9 +30,10 @@
                   <div class="text-center" id="div-update-avatar">
                     <div id="image-edit-profile">
                       <img
-                        src="images/users/default-avatar-trungquandev-01.jpg"
+                        src="images/users/<%= user.avatar %>"
                         class="avatar img-circle"
                         alt="avatar"
+                        id="user-modal-avatar"
                       />
                     </div>
                     <h6>Tải lên một ảnh mới...</h6>
@@ -47,39 +48,61 @@
                 </div>
                 <!-- edit form column -->
                 <div class="col-md-9 personal-info">
-                  <div class="alert alert-danger alert-dismissable">
+                  <div
+                    class="
+                      alert alert-danger alert-dismissable
+                      user-modal-alert-error
+                    "
+                  >
                     <a class="panel-close close" data-dismiss="alert">×</a>
-                    Update user error example.<br />
-                    <!-- <script>openProfileModal();</script> -->
+                    <span>Update user error example.</span>
                   </div>
 
-                  <div class="alert alert-success alert-dismissable">
+                  <div
+                    class="
+                      alert alert-success alert-dismissable
+                      user-modal-alert-success
+                    "
+                  >
                     <a class="panel-close close" data-dismiss="alert">×</a>
-                    Update user success example.<br />
-                    <!-- <script>openProfileModal();</script> -->
+                    <span>Update user success example.</span>
                   </div>
-
+                  <%if(user.local.email) {%>
                   <h3>Local account.</h3>
+                  <%}%> <%if(user.facebook.email) {%>
                   <h3>Facebook account.</h3>
+                  <%}%> <%if(user.google.email) {%>
                   <h3>Google account.</h3>
+                  <%}%>
 
                   <br />
                   <div class="form-group">
                     <label class="col-lg-3 control-label">Email:</label>
                     <div class="col-lg-8">
+                      <%if(user.local.email) {%>
                       <div class="form-control" disabled>
-                        trungquandev@trungquandev.com
+                        <%=user.local.email%>
                       </div>
+                      <%}%> <%if(user.facebook.email) {%>
+                      <div class="form-control" disabled>
+                        <%user.facebook.email%>
+                      </div>
+                      <%}%> <%if(user.google.email) {%>
+                      <div class="form-control" disabled>
+                        <%user.google.email%>
+                      </div>
+                      <%}%>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Username:</label>
                     <div class="col-md-8">
                       <input
+                        id="input-change-username"
                         class="form-control"
                         type="text"
                         name="username"
-                        value="Trung Quân"
+                        value="<%= user.username%>"
                       />
                     </div>
                   </div>
@@ -87,24 +110,15 @@
                     <label class="col-lg-3 control-label">Giới tính:</label>
                     <div class="col-lg-8">
                       <label class="radio-inline col-lg-2"
-                        >Nam
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="male"
-                          checked
-                          required
-                        />
+                        >Nam <input id="input-change-gender-male" type="radio"
+                        name="gender" value="male" <% if(user.gender === "male")
+                        {%> checked <%}%> required />
                         <span class="checkmark"></span>
                       </label>
                       <label class="radio-inline col-lg-2"
-                        >Nữ
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="female"
-                          required
-                        />
+                        >Nữ <input id="input-change-gender-female" type="radio"
+                        name="gender" value="female" <% if(user.gender ===
+                        "female") {%> checked <%}%> required />
                         <span class="checkmark"></span>
                       </label>
                     </div>
@@ -113,10 +127,11 @@
                     <label class="col-lg-3 control-label">Địa chỉ:</label>
                     <div class="col-lg-8">
                       <input
+                        id="input-change-address"
                         class="form-control"
                         type="text"
                         name="address"
-                        value="Hà Nội, Việt Nam"
+                        value="<%= user.address%>"
                       />
                     </div>
                   </div>
@@ -124,10 +139,11 @@
                     <label class="col-lg-3 control-label">Số điện thoại:</label>
                     <div class="col-lg-8">
                       <input
+                        id="input-change-phone"
                         class="form-control"
                         type="text"
                         name="phone"
-                        value="0123456789"
+                        value="<%= user.phone%>"
                       />
                     </div>
                   </div>
@@ -135,14 +151,16 @@
                     <label class="col-md-3 control-label"></label>
                     <div class="col-md-8">
                       <input
-                        type="submit"
+                        type="button"
+                        id="input-btn-update-user"
                         class="btn btn-primary custom-background-btn-primary"
                         name="submit"
                         value="Lưu lại"
                       />
                       <span></span>
                       <input
-                        type="reset"
+                        type="button"
+                        id="input-btn-cancel-update-user"
                         class="btn btn-default custom-background-btn-reset"
                         value="Hủy bỏ"
                       />
