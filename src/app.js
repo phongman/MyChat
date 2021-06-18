@@ -4,34 +4,77 @@ import connectDB from "./config/connectDB";
 import configViewEngine from "./config/viewEngine";
 import initRoutes from "./routes/web";
 import connectFlash from "connect-flash";
-import configSession from './config/session';
-import passport from 'passport';
+import configSession from "./config/session";
+import passport from "passport";
+import pem from "pem";
 
-// Init app
-const app = express();
+import https from "https";
 
-// connect to mongodb
-connectDB();
+pem.createCertificate({ days: 1, selfSigned: true }, function (err, keys) {
+  if (err) {
+    throw err;
+  }
 
-// config session
-configSession(app);
+  // Init app
+  const app = express();
 
-// config view engine
-configViewEngine(app);
+  // connect to mongodb
+  connectDB();
 
-// config body parser
-app.use(express.urlencoded());
+  // config session
+  configSession(app);
 
-// Enable flash message
-app.use(connectFlash());
+  // config view engine
+  configViewEngine(app);
 
-// passport
-app.use(passport.initialize());
-app.use(passport.session());
+  // config body parser
+  app.use(express.urlencoded());
 
-// init all routes
-initRoutes(app);
+  // Enable flash message
+  app.use(connectFlash());
 
-app.listen(process.env.APP_PORT, process.env.APP_HOST, function () {
-  console.log("Connected to host " + process.env.APP_PORT);
+  // passport
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // init all routes
+  initRoutes(app);
+
+  https
+    .createServer(
+      { key: keys.serviceKey, cert: keys.certificate },
+      app
+    )
+    .listen(process.env.APP_PORT, process.env.APP_HOST, function () {
+      console.log("Connected to host " + process.env.APP_PORT);
+    });
 });
+
+  // // Init app
+  // const app = express();
+
+  // // connect to mongodb
+  // connectDB();
+
+  // // config session
+  // configSession(app);
+
+  // // config view engine
+  // configViewEngine(app);
+
+  // // config body parser
+  // app.use(express.urlencoded());
+
+  // // Enable flash message
+  // app.use(connectFlash());
+
+  // // passport
+  // app.use(passport.initialize());
+  // app.use(passport.session());
+
+  // // init all routes
+  // initRoutes(app);
+
+// app.listen(process.env.APP_PORT, process.env.APP_HOST, function () {
+//   console.log("Connected to host " + process.env.APP_PORT);
+// });

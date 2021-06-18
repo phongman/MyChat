@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator/check";
-import {auth} from '../services';
+import { auth } from "../services";
+import {transSuccess} from "../../lang/vi"
 
 const getLoginRegister = (req, res) => {
   return res.render("auth/master", {
@@ -26,10 +27,16 @@ const postRegister = async (req, res) => {
   }
 
   try {
-    const successMessage = await auth.register(req.body.email, req.body.password, req.body.gender, req.protocol, req.get("host"));    
-    successArr.push(successMessage); 
+    const successMessage = await auth.register(
+      req.body.email,
+      req.body.password,
+      req.body.gender,
+      req.protocol,
+      req.get("host")
+    );
+    successArr.push(successMessage);
     req.flash("success", successArr);
-    res.redirect("/login-register")
+    res.redirect("/login-register");
     // res.status(200).json()
   } catch (err) {
     errorArr.push(err);
@@ -40,8 +47,8 @@ const postRegister = async (req, res) => {
 };
 
 let verifyAccount = async (req, res) => {
-  let errorArr= [];
-  let successArr= [];
+  let errorArr = [];
+  let successArr = [];
 
   try {
     let verifySuccess = await auth.verifyAccount(req.params.token);
@@ -56,6 +63,27 @@ let verifyAccount = async (req, res) => {
     return res.redirect("/login-register");
     // res.status(500).json(errorArr)
   }
+};
+
+let getLogout = (req, res) => {
+  req.logout(); // remove session passport user
+  req.flash("success", transSuccess.logout_success);
+  return res.redirect("/login-register"); 
+  // res.status(200).json("logout success");
+};
+
+let checkLoggedIn = (req, res, next) => {
+  if(!req.isAuthenticated()) {
+    return res.redirect("/login-register");
+  }
+  next();
 }
 
-module.exports = { getLoginRegister, postRegister, verifyAccount };
+let checkLoggedOut = (req, res, next) => {
+  if(req.isAuthenticated()) {
+    return res.redirect("/");
+  }
+  next();
+}
+
+module.exports = { getLoginRegister, postRegister, verifyAccount, getLogout, checkLoggedIn, checkLoggedOut };

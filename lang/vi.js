@@ -19,7 +19,8 @@ export const transSuccess = {
     return `Account <strong>${userEmail}<strong> created success`;
   },
   user_activated: 'User activated',
-  login_success: "Login succeed",
+  login_success: "Login success",
+  logout_success: "Logout success"
 };
 
 export const transMail = {
