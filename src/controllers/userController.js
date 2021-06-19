@@ -96,4 +96,36 @@ const updateInfo = async (req, res) => {
   }
 };
 
-module.exports = { updateAvatar, updateInfo };
+const updatePassword = async (req, res) => {
+  let errorArr = [];
+
+  let validationErrors = validationResult(req);
+
+  if (!validationErrors.isEmpty()) {
+    let errors = Object.values(validationErrors.mapped());
+    errors.forEach((el) => {
+      errorArr.push(el.msg);
+    });
+
+    res.status(500).json({error: errorArr})
+  }
+
+  try {
+    let updateUserItem = req.body;
+
+    await user.updatePassword(req.user._id, updateUserItem);
+
+    let result = {
+      message: transSuccess.password_update_success
+    }
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json(error)
+  }
+
+}
+
+module.exports = { updateAvatar, updateInfo, updatePassword };
