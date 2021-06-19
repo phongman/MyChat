@@ -17,19 +17,18 @@ let sessionStore = new MongoStore({
  * Config session for app
  */
 
-let configSession = (app) => {
-  app.use(
-    session({
-      key: "express.sid",
-      secret: "mySecret",
-      store: sessionStore,
-      resave: true,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24,
-      },
-    })
-  );
-};
+let config = session({
+  key: "express.sid",
+  secret: "mySecret",
+  store: sessionStore,
+  resave: true,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24,
+  },
+});
 
-module.exports = configSession;
+module.exports = {
+  config,
+  sessionStore,
+};

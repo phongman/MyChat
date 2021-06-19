@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { truncateSync } from "fs";
 
 let Schema = mongoose.Schema;
 
@@ -82,8 +83,37 @@ UserSchema.statics = {
   },
 
   updateUserPassword(id, hashedPass) {
-    return this.updateOne({_id: id}, {"local.password": hashedPass}).exec()
-  }
+    return this.updateOne({ _id: id }, { "local.password": hashedPass }).exec();
+  },
+
+  /**
+   *
+   * @param {array} deprecatedUserIds
+   * @param {string} keyword
+   */
+  findAllUserToAddContact(deprecatedUserIds, keyword) {
+    return this.find(
+      {
+        $and: [
+          {
+            _id: { $nin: deprecatedUserIds },
+          },
+          {
+            "local.isActive": true,
+          },
+          {
+            $or: [
+              { username: { $regex: new RegExp(keyword, "i") } },
+              { "local.email": { $regex: new RegExp(keyword, "i") } },
+              { "facebook.email": { $regex: new RegExp(keyword, "i") } },
+              { "google.email": { $regex: new RegExp(keyword, "i") } },
+            ],
+          },
+        ],
+      },
+      { _id: 1, username: 1, address: 1, avatar: 1 }
+    ).exec();
+  },
 };
 
 UserSchema.methods = {
