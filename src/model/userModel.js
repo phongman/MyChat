@@ -82,8 +82,6 @@ UserSchema.statics = {
   },
 
   updateUserPassword(id, hashedPass) {
-    console.log('hasedPss', hashedPass);
-
     return this.updateOne({_id: id}, {"local.password": hashedPass}).exec()
   }
 };

@@ -21,8 +21,6 @@ const updateUser = (id, item) => {
  */
 const updatePassword = (id, dataPassword) => {
     return new Promise(async (resolve, reject) => {
-        console.log('dataPassword',dataPassword);
-
         let currentUser = await UserModel.findUserById(id);
 
         if(!currentUser) return reject(transErrors.account_not_found);
