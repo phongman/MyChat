@@ -18,8 +18,6 @@ let initPassportLocal = () => {
         passReqToCallback: true
       },
       async (req, email, password, done) => {
-        console.log('reqqq', req);
-
         try {
             let user = await UserModel.findByEmail(email);
 

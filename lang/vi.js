@@ -6,7 +6,8 @@ export const transValidation = {
   update_username: "Username must be less than 3-30 characters",
   update_gender: "Opps ! Something went wrong",
   update_address: "Address must be between 3-30 characters",
-  update_phone: "Phone in range 10-11 characters"
+  update_phone: "Phone in range 10-11 characters",
+  password_not_match: "Password did not match",
 };
 
 export const transErrors = {
@@ -17,6 +18,8 @@ export const transErrors = {
   login_failed: "Email or password is wrong",
   server_error: "Server error",
   avatar_type_error: "File is not valid", 
+  account_not_found: "Account not found",
+  password_not_match: "Password did not match",
 };
 
 export const transSuccess = {
@@ -28,6 +31,7 @@ export const transSuccess = {
   logout_success: "Logout success",
   avatar_updated: "Update avatar success",
   user_info_updated: "Update user info success",
+  password_update_success: "Password updated"
 };
 
 export const transMail = {

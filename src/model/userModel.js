@@ -45,7 +45,7 @@ UserSchema.statics = {
   },
 
   findByToken(token) {
-    return this.findOne({ "local.verifyToken": token }).exect();
+    return this.findOne({ "local.verifyToken": token }).exec();
   },
 
   verifyAccount(token) {
@@ -80,6 +80,10 @@ UserSchema.statics = {
       item
     ).exec();
   },
+
+  updateUserPassword(id, hashedPass) {
+    return this.updateOne({_id: id}, {"local.password": hashedPass}).exec()
+  }
 };
 
 UserSchema.methods = {
