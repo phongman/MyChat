@@ -20,6 +20,7 @@ export const transErrors = {
   avatar_type_error: "File is not valid", 
   account_not_found: "Account not found",
   password_not_match: "Password did not match",
+  keyword_find_user: "Keyword is not valid",
 };
 
 export const transSuccess = {

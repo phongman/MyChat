@@ -1,6 +1,9 @@
 /**
  * Created by https://trungquandev.com's author on 25/02/2018.
  */
+
+const socket = io();
+
 function nineScrollLeft() {
   $('.left').niceScroll({
     smoothscroll: true,
@@ -47,11 +50,11 @@ function enableEmojioneArea(chatId) {
 }
 
 function spinLoaded() {
-  $('#loader').css('display', 'none');
+  $('.master-loader').css('display', 'none');
 }
 
 function spinLoading() {
-  $('#loader').css('display', 'block');
+  $('.master-loader').css('display', 'block');
 }
 
 function ajaxLoading() {
@@ -73,10 +76,10 @@ function showModalContacts() {
 function configNotification() {
   $('#noti_Button').click(function() {
     $('#notifications').fadeToggle('fast', 'linear');
-    $('.noti_counter').fadeOut('slow');
+    // $('.noti_counter').fadeOut('slow');
     return false;
   });
-  $(document).click(function() {
+  $('.main-content').click(function() {
     $('#notifications').fadeOut('fast', 'linear');
   });
 }
