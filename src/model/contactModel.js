@@ -58,7 +58,6 @@ ContactSchema.statics = {
       ]
     }).exec()
   },
-
 }
 
 module.exports = mongoose.model("contact", ContactSchema);

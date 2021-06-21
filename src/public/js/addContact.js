@@ -20,20 +20,21 @@ function addContact() {
 }
 
 socket.on("response-add-new-contact", function (user) {
-  let noti = `<span data-uid="${user.id}">
+  let noti = `<div class="notif-unread" data-uid="${user.id}">
   <img
     class="avatar-small"
     src="images/users/${user.avatar}"
     alt=""
   />
   <strong>${user.username}</strong> đã gửi cho bạn một lời mời kết
-  bạn! </span
-><br /><br /><br />`;
+  bạn! </div
+>`;
 
   $(".noti_content").prepend(noti);
+  $("ul.list-notifications").prepend(`<li>${noti}</liv>`);
 
   increaseNumberNotiContact("count-request-contact-received");
 
-  increaseNumberNotification("noti_contact_counter");
-  increaseNumberNotification("noti_counter");
+  increaseNumberNotification("noti_contact_counter", 1);
+  increaseNumberNotification("noti_counter", 1);
 });
