@@ -1,5 +1,5 @@
 import addNewContact from './contact/addNewContact';
-import removeRequestContact from './contact/removeRequestContact';
+import removeRequestContact from './contact/removeRequestContactSent';
 
 /**
  * 

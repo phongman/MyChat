@@ -14,7 +14,7 @@ let readMore = async (req, res) => {
 
 let markAllAsRead = async (req, res) => {
     try {
-       let mark = await notification.markAllAsRead(req.user._id, req.body.targetUser);
+       let mark = await notification.markAllAsRead(req.user._id, req.body.targetUsers);
 
        return res.status(200).send(mark);
       } catch (error) {
