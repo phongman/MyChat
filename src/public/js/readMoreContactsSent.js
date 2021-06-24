@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $("#link-read-more-contacts-sent").unbind("click").on("click", function () {
+  $("#link-read-more-contacts-sent").on("click", function () {
     let skipNumber = $("#request-contact-sent").find("li").length;
 
     $("#link-read-more-contacts-sent").css("display", "none");

@@ -41,8 +41,6 @@ $(document).ready(function () {
               </div>
             </li>
             `);
-
-            console.log(user);
           })
   
           $("#link-read-more-contacts").css("display", "inline-block");

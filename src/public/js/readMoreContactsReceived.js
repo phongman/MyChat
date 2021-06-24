@@ -30,22 +30,23 @@ $(document).ready(function () {
                 <span>&nbsp ${user.address}</span>
               </div>
               <div
-                class="user-acccept-contact-received"
+                class="user-accept-contact-received"
                 data-uid="${user._id}"
               >
                 Chấp nhận
               </div>
               <div
-                class="user-reject-request-contact-received action-danger"
+                class="user-remove-request-contact-received action-danger"
                 data-uid="${user._id}"
               >
                 Xóa yêu cầu
               </div>
             </div>
           </li>`);
-  
-            console.log(user);
           });
+
+          removeRequestContactReceived();
+          acceptRequestContact();
   
           $("#link-read-more-contacts-received").css("display", "inline-block");
           $(".spin-read-more-contacts-received").css("display", "none");

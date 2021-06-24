@@ -1,5 +1,5 @@
 function removeRequestContactSent() {
-  $(".user-remove-request-contact-sent").bind("click", function () {
+  $(".user-remove-request-contact-sent").unbind("click").on("click", function () {
     let targetId = $(this).data("uid");
 
     $.ajax({
@@ -15,6 +15,8 @@ function removeRequestContactSent() {
             .find(`div.user-add-new-contact[data-uid = ${targetId}]`)
             .css("display", "inline-block");
             
+            decreaseNumberNotification("noti_contact_counter", 1);
+
             decreaseNumberNotiContact("count-request-contact-sent")
 
             $("#request-contact-sent").find(`li[data-uid = ${targetId}]`).remove();

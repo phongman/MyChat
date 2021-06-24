@@ -69,6 +69,46 @@ const removeRequestContactSent = (userId, contactId) => {
   });
 };
 
+const removeRequestContactReceived = (userId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let removeRequestContactReceived = await ContactModel.removeRequestContactReceived(
+      userId,
+      contactId
+    );
+
+    if (removeRequestContactReceived.n === 0) reject(false);
+
+    // remove notification
+    // await model.removeRequestNotification(userId, contactId, types.ADD_CONTACT);
+
+    resolve(true);
+  });
+};
+
+const acceptContactReceived = (userId, contactId) => {
+  return new Promise(async (resolve, reject) => {
+    let acceptReq = await ContactModel.acceptContactReceived(
+      userId,
+      contactId
+    );
+
+    console.log(acceptReq);
+
+    if (acceptReq.nModified === 0) reject(false);
+
+    // create notification
+    let notificationItem = {
+      senderId: userId,
+      receiverId: contactId,
+      type: types.ACCEPT_CONTACT,
+    };
+
+    await model.createNew(notificationItem);
+
+    resolve(true);
+  });
+};
+
 const getContacts = (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -229,6 +269,7 @@ module.exports = {
   findUserContact,
   addNew,
   removeRequestContactSent,
+  removeRequestContactReceived,
   getContacts,
   getContactsSent,
   getContactsReceived,
@@ -237,5 +278,6 @@ module.exports = {
   countAllContactsReceived,
   readMoreContacts,
   readMoreContactsSent,
-  readMoreContactsReceived
+  readMoreContactsReceived,
+  acceptContactReceived
 };
