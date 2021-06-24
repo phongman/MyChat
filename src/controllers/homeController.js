@@ -1,4 +1,4 @@
-import { notification, contact } from "../services";
+import { notification, contact, message } from "../services";
 
 let getHome = async (req, res) => {
   // get notification: default 10 items
@@ -20,6 +20,11 @@ let getHome = async (req, res) => {
   let countAllContactsSent = await contact.countAllContactsSent(req.user._id);
   let countAllContactsReceived = await contact.countAllContactsReceived(req.user._id);
 
+  // message
+  let getAllConversations = await message.getAllConversations(req.user._id);
+
+  const {allConversations, userConversations, groupConversations} = getAllConversations;
+
   return res.render("main/home/home", {
     errors: req.flash("errors"),
     success: req.flash("success"),
@@ -31,7 +36,11 @@ let getHome = async (req, res) => {
     contactsReceived: contactsReceived,
     countAllContacts: countAllContacts,
     countAllContactsSent: countAllContactsSent,
-    countAllContactsReceived: countAllContactsReceived
+    countAllContactsReceived: countAllContactsReceived,
+    getAllConversations: getAllConversations,
+    allConversations: allConversations,
+    userConversations: userConversations,
+    groupConversations: groupConversations,
   });
 
   // res.status(200).send({notifications, countNotiUnread})
