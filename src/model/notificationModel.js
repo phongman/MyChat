@@ -46,7 +46,7 @@ NotificationSchema.statics = {
    * @returns
    */
   countNotiUnread(userId) {
-    return this.count({
+    return this.countDocuments({
       $and: [{ receiverId: userId }, { isRead: false }],
     }).exec();
   },
@@ -84,6 +84,7 @@ NotificationSchema.statics = {
 
 const NOTIFICATION_TYPES = {
   ADD_CONTACT: "add_contact",
+  ACCEPT_CONTACT: "accept_contact",
 };
 
 const NOTIFICATION_CONTENT = {
@@ -107,6 +108,29 @@ const NOTIFICATION_CONTENT = {
         alt=""
       />
       <strong>${username}</strong> đã gửi cho bạn một lời mời kết
+      bạn! </div
+    >`;
+    }
+
+    if (notificationType === NOTIFICATION_TYPES.ACCEPT_CONTACT) {
+      if (!isRead) {
+        return `<div class="notif-unread" data-uid="${userId}">
+      <img
+        class="avatar-small"
+        src="images/users/${avatar}"
+        alt=""
+      />
+      <strong>${username}</strong> đã chấp nhận lời mời kết
+      bạn! </div
+    >`;
+      }
+      return `<div data-uid="${userId}">
+      <img
+        class="avatar-small"
+        src="images/users/${avatar}"
+        alt=""
+      />
+      <strong>${username}</strong> đã chấp nhận lời mời kết
       bạn! </div
     >`;
     }

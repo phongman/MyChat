@@ -306,8 +306,6 @@ function callUpdateUserPassword() {
           location.reload();
         })
       })
-
-
     },
     error: function (error) {
       $(".user-modal-password-alert-error").find("span").text(error.responseText);

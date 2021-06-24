@@ -1,5 +1,8 @@
 import addNewContact from './contact/addNewContact';
-import removeRequestContact from './contact/removeRequestContact';
+import removeRequestContactSent from './contact/removeRequestContactSent';
+import removeRequestContactReceived from './contact/removeRequestContactReceived';
+import acceptContactReceived from './contact/acceptContactReceived';
+import removeContact from './contact/removeContact';
 
 /**
  * 
@@ -7,7 +10,10 @@ import removeRequestContact from './contact/removeRequestContact';
  */
 let initSockets = (io) => {
     addNewContact(io);
-    removeRequestContact(io);
+    removeRequestContactSent(io);
+    removeRequestContactReceived(io);
+    acceptContactReceived(io);
+    removeContact(io);
 };
 
 module.exports = initSockets;

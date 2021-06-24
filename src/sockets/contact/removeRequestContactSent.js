@@ -8,7 +8,7 @@ import {
  *
  * @param io from socket.io
  */
-let removeRequestContact = (io) => {
+let removeRequestContactSent = (io) => {
   let clients = {};
 
   io.on("connection", (socket) => {
@@ -17,7 +17,7 @@ let removeRequestContact = (io) => {
 
     pushSocketIdToArray(clients, currentUserId, socket.id);
 
-    socket.on("remove-request-contact", (data) => {
+    socket.on("remove-request-contact-sent", (data) => {
       let currentUser = {
         id: socket.request.user._id,
       };
@@ -27,7 +27,7 @@ let removeRequestContact = (io) => {
           clients,
           data.contactId,
           socket,
-          "response-remove-request-contact",
+          "response-remove-request-contact-sent",
           currentUser
         );
       }
@@ -39,4 +39,4 @@ let removeRequestContact = (io) => {
   });
 };
 
-module.exports = removeRequestContact;
+module.exports = removeRequestContactSent;
