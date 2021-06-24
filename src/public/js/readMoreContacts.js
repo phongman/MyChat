@@ -42,6 +42,8 @@ $(document).ready(function () {
             </li>
             `);
           })
+
+          removeContact();
   
           $("#link-read-more-contacts").css("display", "inline-block");
           $(".spin-read-more-contacts").css("display", "none");

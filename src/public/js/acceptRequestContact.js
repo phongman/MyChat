@@ -41,6 +41,8 @@ function acceptRequestContact() {
 
             decreaseNumberNotification("noti_contact_counter", 1);
 
+            removeContact();
+
             socket.emit("accept-contact-received", { contactId: targetId });
           }
         },
@@ -97,6 +99,7 @@ socket.on("response-accept-contact-received", function (user) {
 </li>
   `;
   $("#contacts").find("ul").prepend(userInfoHtml);
+  removeContact();
 });
 
 $(document).ready(function () {

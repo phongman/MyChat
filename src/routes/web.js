@@ -88,6 +88,7 @@ let initRoutes = (app) => {
   router.get("/contact/read-more-contacts-sent", auth.checkLoggedIn, contact.readMoreContactsSent)
   router.get("/contact/read-more-contacts-received", auth.checkLoggedIn, contact.readMoreContactsReceived)
   router.put("/contact/accept-contact-received", auth.checkLoggedIn, contact.acceptContactReceived)
+  router.put("/contact/remove-contact", auth.checkLoggedIn, contact.removeContact)
 
   //notifications
   router.get("/notification/read-more", auth.checkLoggedIn, notification.readMore)
