@@ -48,8 +48,8 @@ const updateAvatar = (req, res) => {
       // update user
       const userUpdated = await user.updateUser(req.user._id, updateUserItem);
 
-      //remove old user avatar
-      fsExtra.remove(`${app.avatar_directory}/${userUpdated.avatar}`);
+      // Khong xoa avatar cu cua nguoi dung
+      // fsExtra.remove(`${app.avatar_directory}/${userUpdated.avatar}`);
 
       const result = {
         message: transSuccess.user_info_updated,

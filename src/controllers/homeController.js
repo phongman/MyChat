@@ -1,4 +1,5 @@
 import { notification, contact, message } from "../services";
+import { bufferToBase64 } from '../util/clientsUtil';
 
 let getHome = async (req, res) => {
   // get notification: default 10 items
@@ -23,7 +24,7 @@ let getHome = async (req, res) => {
   // message
   let getAllConversations = await message.getAllConversations(req.user._id);
 
-  const {allConversations, userConversations, groupConversations} = getAllConversations;
+  const {allConversations, userConversations, groupConversations, allConversationMessage} = getAllConversations;
 
   return res.render("main/home/home", {
     errors: req.flash("errors"),
@@ -41,6 +42,8 @@ let getHome = async (req, res) => {
     allConversations: allConversations,
     userConversations: userConversations,
     groupConversations: groupConversations,
+    allConversationMessage: allConversationMessage,
+    bufferToBase64: bufferToBase64,
   });
 
   // res.status(200).send({notifications, countNotiUnread})
