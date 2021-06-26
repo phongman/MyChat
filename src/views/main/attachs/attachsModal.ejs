@@ -1,4 +1,5 @@
-<div class="modal fade" id="attachsModal" role="dialog">
+<% allConversationMessage.forEach(function(conversation, index) { %>
+<div class="modal fade" id="attachsModal_<%= conversation._id %>" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -9,24 +10,20 @@
         </div>
         <div class="modal-body">
           <ul class="list-attachs">
+            <% conversation.messages.forEach(function(message) { %> <%
+              if(message.messageType === 'file') { %>
             <li>
               <a
-                href="fileExample/Tệp văn bản - trungquandev.pdf"
-                download="${ item.file.fileName }"
-              >
-                Tệp văn bản - trungquandev.pdf
-              </a>
+              href="data:<%= message.file.contentType %>; base64, <%= bufferToBase64(message.file.data)%>"
+              download="<%= message.file.fileName %>"
+            >
+              <%= message.file.fileName %>
+            </a>
             </li>
-            <li>
-              <a
-                href="fileExample/Tệp văn bản - trungquandev.docx"
-                download="${ item.file.fileName }"
-              >
-                Tệp văn bản - trungquandev.docx
-              </a>
-            </li>
+            <% } %> <% }) %>
           </ul>
         </div>
       </div>
     </div>
   </div>
+<% }) %>

@@ -76,7 +76,7 @@ let initPassportFacebook = () => {
   });
 
   passport.deserializeUser((id, done) => {
-    UserModel.findUserById(id)
+    UserModel.findUserByIdForSession(id)
       .then((user) => {
         return done(null, user);
       })
