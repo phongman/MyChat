@@ -105,8 +105,6 @@ const acceptContactReceived = (userId, contactId) => {
       contactId
     );
 
-    console.log(acceptReq);
-
     if (acceptReq.nModified === 0) reject(false);
 
     // create notification
