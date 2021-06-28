@@ -8,6 +8,7 @@ export const transValidation = {
   update_address: "Address must be between 3-30 characters",
   update_phone: "Phone in range 10-11 characters",
   password_not_match: "Password did not match",
+  message_text_emoji_incorrect: "Message is not valid",
 };
 
 export const transErrors = {
@@ -21,6 +22,7 @@ export const transErrors = {
   account_not_found: "Account not found",
   password_not_match: "Password did not match",
   keyword_find_user: "Keyword is not valid",
+  conversation_not_found: "Conversation not fonud",
 };
 
 export const transSuccess = {
