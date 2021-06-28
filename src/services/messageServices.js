@@ -1,8 +1,11 @@
 import ContactModel from "../model/contactModel";
 import UserModel from "../model/userModel";
 import ChatGroupModel from "../model/chatGroupModel";
-import {model as MessageModel} from '../model/messageModel';
+import {model as MessageModel, conversationTypes, messageTypes} from '../model/messageModel';
 import _ from "lodash";
+import { transErrors } from '../../lang/vi';
+import { app } from '../config/app';
+import { model } from "mongoose";
 
 const LIMIT_NUMBER = 15;
 const LIMIT_MESSAGE = 30;
@@ -42,10 +45,18 @@ const getAllConversations = (currentUserId) => {
 
       // get all message
       let allConversationMessagePromise = allConversations.map( async (conversation) => {
-        let messages = await MessageModel.getMessages(currentUserId, conversation._id);
-        console.log('messages', messages);
         conversation = conversation.toObject();
-        conversation.messages = messages;
+
+        if(conversation.members) {
+          let messages = await MessageModel.getGroupMessages(conversation._id, LIMIT_MESSAGE);
+
+          conversation.messages = messages;
+        } else {
+          let messages = await MessageModel.getPersonalMessages(currentUserId, conversation._id, LIMIT_MESSAGE  );
+
+          conversation.messages = messages;
+        }
+
         return conversation;
       });
 
@@ -54,18 +65,90 @@ const getAllConversations = (currentUserId) => {
         return -item.updatedAt;
       });
 
-      resolve({
-        userConversations,
-        groupConversations,
-        allConversations,
-        allConversationMessage
-      });
+      resolve(allConversationMessage);
     } catch (error) {
       reject(error);
     }
   });
 };
 
+/**
+ * 
+ * @param {object} sender currentUserInfo
+ * @param {string} receiverId  
+ * @param {string} messageVal 
+ * @param {boolean} isChatGroup 
+ */
+const addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if(isChatGroup) {
+        let getChatGroupReceiver = await ChatGroupModel.getChatGroupById(receiverId);
+
+        if(!getChatGroupReceiver) {
+          return reject(transErrors.conversation_not_found);
+        }
+
+        let receiver = {
+          id: getChatGroupReceiver._id,
+          name: getChatGroupReceiver.name,
+          avatar: app.group_avatar_default,
+        }
+
+        let newMessageItem = {
+          senderId: sender.id,
+          receiverId: receiver.id,
+          conversationType: conversationTypes.GROUP,
+          messageType: messageTypes.TEXT,
+          sender: sender,
+          receiver: receiver,
+          text: messageVal,
+          createdAt: Date.now(),
+        }
+
+        let newMessage = await MessageModel.createNew(newMessageItem);
+
+        // await group chat
+        await ChatGroupModel.updateWhenHasNewMessage(receiver.id, getChatGroupReceiver.messageAmount + 1);
+        resolve(newMessage);
+      } else {
+        let getUserReceiver = await UserModel.getUserDataById(receiverId);
+
+        if(!getUserReceiver) {
+          return reject(transErrors.conversation_not_found);
+        }
+        
+        let receiver = {
+          id: getUserReceiver._id,
+          name: getUserReceiver.username,
+          avatar: getUserReceiver.avatar,
+        }
+
+        let newMessageItem = {
+          senderId: sender.id,
+          receiverId: receiver.id,
+          conversationType: conversationTypes.PERSONAL,
+          messageType: messageTypes.TEXT,
+          sender: sender,
+          receiver: receiver,
+          text: messageVal,
+          createdAt: Date.now(),
+        }
+
+        let newMessage = await MessageModel.createNew(newMessageItem);
+        
+        // update contact
+        await ContactModel.updateWhenHasNewMessage(sender.id, receiver.id);
+
+        resolve(newMessage);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  })
+}
+
 module.exports = {
   getAllConversations,
+  addNewTextEmoji
 };
