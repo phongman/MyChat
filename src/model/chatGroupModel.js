@@ -46,6 +46,18 @@ ChatGroupSchema.statics = {
    */
   updateWhenHasNewMessage(id, messageAmount) {
     return this.updateOne({_id: id}, {messageAmount: messageAmount, updatedAt: Date.now()}).exec();
+  },
+
+  /**
+   * 
+   * @param {string} userId 
+   */
+  getChatGroupIdsByUser(userId) {
+    return this.find({
+      members: {
+        $elemMatch: { userId: userId },
+      },
+    }, {_id: 1}).exec();
   }
 };
 

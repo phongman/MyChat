@@ -15,7 +15,7 @@ let removeRequestContactSent = (io) => {
     // push socketId to array
     let currentUserId = socket.request.user._id;
 
-    pushSocketIdToArray(clients, currentUserId, socket.id);
+    clients = pushSocketIdToArray(clients, currentUserId, socket.id);
 
     socket.on("remove-request-contact-sent", (data) => {
       let currentUser = {

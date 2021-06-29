@@ -5,7 +5,6 @@ import {model as MessageModel, conversationTypes, messageTypes} from '../model/m
 import _ from "lodash";
 import { transErrors } from '../../lang/vi';
 import { app } from '../config/app';
-import { model } from "mongoose";
 
 const LIMIT_NUMBER = 15;
 const LIMIT_MESSAGE = 30;
@@ -52,7 +51,7 @@ const getAllConversations = (currentUserId) => {
 
           conversation.messages = messages;
         } else {
-          let messages = await MessageModel.getPersonalMessages(currentUserId, conversation._id, LIMIT_MESSAGE  );
+          let messages = await MessageModel.getPersonalMessages(currentUserId, conversation._id, LIMIT_MESSAGE);
 
           conversation.messages = messages;
         }
@@ -110,6 +109,7 @@ const addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
 
         // await group chat
         await ChatGroupModel.updateWhenHasNewMessage(receiver.id, getChatGroupReceiver.messageAmount + 1);
+
         resolve(newMessage);
       } else {
         let getUserReceiver = await UserModel.getUserDataById(receiverId);
@@ -139,7 +139,7 @@ const addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
         
         // update contact
         await ContactModel.updateWhenHasNewMessage(sender.id, receiver.id);
-
+        
         resolve(newMessage);
       }
     } catch (error) {

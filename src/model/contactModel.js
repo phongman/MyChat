@@ -245,7 +245,7 @@ ContactSchema.statics = {
     {
       updatedAt: Date.now(),
     }
-    ).exec;
+    ).exec();
   }
 };
 
