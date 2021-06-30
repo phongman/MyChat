@@ -98,7 +98,61 @@ const addNewImage = (req, res) => {
   })
 }
 
+/**Attachment */
+let storageAttachmentChat = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, app.attachment_message_directory);
+  },
+  filename: (req, file, callback) => {
+    let attachmentName = `${file.originalname}`;
+
+    callback(null, attachmentName);
+  },
+});
+
+const atthachmentMessageUploadFile = multer({
+  storage: storageAttachmentChat,
+  limits: {
+    fileSize: app.attachment_message_directory,
+  },
+}).single("my-attachment-chat");
+
+const addNewAttachment = (req, res) => {
+  atthachmentMessageUploadFile(req, res, async (error) => {
+    if (error) {
+      if (error.message) {
+        return res.status(500).send(error.message);
+      }
+      return res.status(500).send(error);
+    }
+
+    try {
+      let sender = {
+          id: req.user._id,
+          name: req.user.username,
+          avatar: req.user.avatar,
+      }
+  
+      let receiverId = req.body.uid;
+      let messageVal = req.file;
+      let isChatGroup = req.body.isChatGroup;
+  
+      let newMessage = await message.addNewAttachment(sender, receiverId, messageVal, isChatGroup);
+  
+      // remove image cause image saved in mongo
+      await fsExtra.remove(`${app.attachment_message_directory}/${newMessage.file.fileName}`);
+
+      return res.status(200).send({message: newMessage});
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send(error);
+    }
+
+  })
+}
+
 module.exports = {
   addNewTextEmoji,
-  addNewImage
+  addNewImage,
+  addNewAttachment
 };

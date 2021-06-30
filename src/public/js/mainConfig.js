@@ -207,7 +207,19 @@ function changeScreenChat() {
 
       // chat image
       imageChat(divId);
+
+      // attachment chat
+      attachmentChat(divId);
     });
+}
+
+function bufferToBase64(buffer) {
+  return btoa(
+    new Uint8Array(buffer).reduce(
+      (data, byte) => data + String.fromCharCode(byte),
+      ""
+    )
+  );
 }
 
 $(document).ready(function () {
