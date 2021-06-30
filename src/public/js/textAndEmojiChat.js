@@ -28,7 +28,7 @@ function textAndEmojiChat(divId) {
 
           // update right side
           let myMessage = $(
-            `<div class="bubble me data-mess-id="${data.message._id}"></div>`
+            `<div class="bubble me" data-mess-id="${data.message._id}"></div>`
           );
 
           myMessage.text(data.message.text);
@@ -110,12 +110,10 @@ $(document).ready(function () {
 
     // update right side
     let yourMessage = $(
-      `<div class="bubble you data-mess-id="${res.message._id}"></div>`
+      `<div class="bubble you" data-mess-id="${res.message._id}"></div>`
     );
 
     yourMessage.text(res.message.text);
-
-    console.log('res', res);
 
     if (res.currentGroupId) {
       divId = res.currentGroupId;

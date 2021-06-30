@@ -20,13 +20,13 @@ function updateUserInfo() {
       return false;
     }
 
-    // if (fileData.size > limit) {
-    //   alertify.notify("Max size is 1MB", "error", 7);
+    if (fileData.size > limit) {
+      alertify.notify("Max size is 1MB", "error", 7);
 
-    //   $(this).val(null);
+      $(this).val(null);
 
-    //   return false;
-    // }
+      return false;
+    }
 
     if (typeof FileReader != undefined) {
       let imagePreview = $("#image-edit-profile");

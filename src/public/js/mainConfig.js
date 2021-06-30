@@ -101,6 +101,8 @@ function gridPhotos(layoutNumber) {
       let href = $(this).attr("href");
       let modalImageId = href.replace("#", "");
 
+      let originDataImage = $(`#${modalImageId}`).find('div.modal-body').html();
+
       let countRows = Math.ceil(
         $(`#${modalImageId}`).find("div.all-images>img").length / layoutNumber
       );
@@ -125,6 +127,11 @@ function gridPhotos(layoutNumber) {
             });
           },
         });
+      
+          // close modal
+          $(`#${modalImageId}`).on('hidden.bs.modal', function() {
+            $(this).find('div.modal-body').html(originDataImage);
+          })
     });
 }
 
@@ -197,6 +204,9 @@ function changeScreenChat() {
 
         // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
       enableEmojioneArea(divId);
+
+      // chat image
+      imageChat(divId);
     });
 }
 

@@ -23,6 +23,7 @@ export const transErrors = {
   password_not_match: "Password did not match",
   keyword_find_user: "Keyword is not valid",
   conversation_not_found: "Conversation not fonud",
+  image_message_error: 'Image is not valid',
 };
 
 export const transSuccess = {
