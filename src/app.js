@@ -9,6 +9,8 @@ import passport from "passport";
 import http from 'http';
 import socketio from 'socket.io';
 import initSockets from './sockets/index';
+import events from 'events';
+import { app as configApp } from './config/app';
 
 // import pem from "pem";
 
@@ -56,6 +58,9 @@ import initSockets from './sockets/index';
 
 // Init app
 const app = express();
+
+// set max connection event listeners
+events.EventEmitter.defaultMaxListeners = configApp.max_event_listener;
 
 // Init server with socket.io & express app
 let server = http.createServer(app);

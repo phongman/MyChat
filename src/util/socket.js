@@ -11,6 +11,10 @@ let emitNotifyToArray = (clients, userId, socket, eventName, data) => {
   return socket.to(clients[userId]).emit(eventName, data);
 };
 
+let emitNotifyToArrayIncludeSender = (clients, userId, io, eventName, data) => {
+  return io.to(clients[userId]).emit(eventName, data);
+};
+
 let removeSocketIdFromArray = (clients, userId, socket) => {
   clients[userId] = clients[userId].filter((socketId) => {
     return socketId !== socket;
@@ -24,4 +28,5 @@ module.exports = {
   removeSocketIdFromArray,
   pushSocketIdToArray,
   emitNotifyToArray,
+  emitNotifyToArrayIncludeSender
 };

@@ -68,11 +68,7 @@ function updateUserInfo() {
       username.length < 3 ||
       username.length > 17
     ) {
-      alertify.notify(
-        "Username must be less than 3-17 characters",
-        "error",
-        7
-      );
+      alertify.notify("Username must be less than 3-17 characters", "error", 7);
 
       $(this).val(originUserInfo.username);
 
@@ -147,7 +143,9 @@ function updateUserInfo() {
   $("#input-change-current-password").bind("change", function () {
     let currentPassword = $(this).val();
 
-    let regexPassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/);
+    let regexPassword = new RegExp(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/
+    );
 
     if (!regexPassword.test(currentPassword)) {
       alertify.notify("Invalid password", "error", 7);
@@ -165,7 +163,9 @@ function updateUserInfo() {
   $("#input-change-new-password").bind("change", function () {
     let newPassword = $(this).val();
 
-    let regexPassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/);
+    let regexPassword = new RegExp(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/
+    );
 
     if (!regexPassword.test(newPassword)) {
       alertify.notify("Invalid password", "error", 7);
@@ -269,7 +269,29 @@ function callUpdateUserInfo() {
 }
 
 function callLogout() {
-
+  let timerInterval;
+  Swal.fire({
+    position: "top-end",
+    title: "Auto close after 5s!",
+    html: "Time: <strong></strong> milliseconds.",
+    timer: 5000,
+    timerProgressBar: true,
+    onBeforeOpen: () => {
+      Swal.showLoading();
+      timerInterval = setInterval(() => {
+        Swal.getContent().querySelector("strong").textContent = Math.ceil(
+          Swal.getTimerLeft() / 1000
+        );
+      }, 1000);
+    },
+    onClose: () => {
+      clearInterval(timerInterval);
+    },
+  }).then((result) => {
+    $.get("/logout", function () {
+      location.reload();
+    });
+  });
 }
 
 function callUpdateUserPassword() {
@@ -285,36 +307,18 @@ function callUpdateUserPassword() {
       $("#input-btn-cancel-update-user").click();
 
       //logout after change password
-      let timerInterval
-      Swal.fire({
-        position: 'top-end',
-        title: 'Auto close after 5s!',
-        html: 'Time: <strong></strong> milliseconds.',
-        timer: 5000,
-        timerProgressBar: true,
-        onBeforeOpen: () => {
-          Swal.showLoading();
-          timerInterval = setInterval(() => {
-            Swal.getContent().querySelector("strong").textContent = Math.ceil(Swal.getTimerLeft()/1000);
-          }, 1000)
-        },
-        onClose: () => {
-          clearInterval(timerInterval)
-        }
-      }).then((result) => {
-        $.get("/logout", function() {
-          location.reload();
-        })
-      })
+      callLogout();
     },
     error: function (error) {
-      $(".user-modal-password-alert-error").find("span").text(error.responseText);
+      $(".user-modal-password-alert-error")
+        .find("span")
+        .text(error.responseText);
       $(".user-modal-password-alert-error").css("display", "block");
 
       //reset all
       $("#input-btn-cancel-update-user-password").click();
     },
-  })
+  });
 }
 
 $(document).ready(function () {
@@ -363,37 +367,40 @@ $(document).ready(function () {
     $("#input-change-phone").val(originUserInfo.phone);
   });
 
-  $("#input-btn-update-user-password").bind("click", function() {
-    if(!userUpdatePassword.currentPassword || !userUpdatePassword.newPassword || !userUpdatePassword.confirmNewPassword) {
+  $("#input-btn-update-user-password").bind("click", function () {
+    if (
+      !userUpdatePassword.currentPassword ||
+      !userUpdatePassword.newPassword ||
+      !userUpdatePassword.confirmNewPassword
+    ) {
       alertify.notify("You have to fill all information", "error", 7);
 
       return false;
     }
 
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#2ecc71',
-      cancelButtonColor: '#ff7675',
-      confirmButtonText: 'Yes, delete it!'
+      cancelButtonColor: "#ff7675",
+      confirmButtonColor: "#2ecc71",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
-      if(!result.value) {
+      if (!result.value) {
         $("#input-btn-cancel-update-user-password").click();
         return false;
       }
 
       return callUpdateUserPassword();
-    })
-  })
+    });
+  });
 
-  $("#input-btn-cancel-update-user-password").bind("click", function() {
+  $("#input-btn-cancel-update-user-password").bind("click", function () {
     userUpdatePassword = {};
 
     $("#input-change-current-password").val(null);
     $("#input-change-confirm-new-password").val(null);
     $("#input-change-new-password").val(null);
-  })
-
+  });
 });

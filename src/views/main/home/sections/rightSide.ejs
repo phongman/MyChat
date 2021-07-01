@@ -102,15 +102,11 @@
             <i class="fa fa-paperclip"></i>
           </label>
           <a
-            href="#streamModal"
-            id="video-chat"
-            class="video-chat"
-            data-chat="<%= conversation._id %>"
-            data-toggle="modal"
+            href="javascript:void(0)"
+            id="video-chat-group"
           >
             <i class="fa fa-video-camera"></i>
           </a>
-          <input type="hidden" id="peer-id" value="" />
         </div>
       </div>
     </div>
@@ -197,15 +193,13 @@
             <i class="fa fa-paperclip"></i>
           </label>
           <a
-            href="#streamModal"
-            id="video-chat"
+            href="javascript:void(0)"
+            id="video-chat-<%= conversation._id %>"
             class="video-chat"
             data-chat="<%= conversation._id %>"
-            data-toggle="modal"
           >
             <i class="fa fa-video-camera"></i>
           </a>
-          <input type="hidden" id="peer-id" value="" />
         </div>
       </div>
     </div>
