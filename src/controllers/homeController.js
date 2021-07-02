@@ -9,37 +9,39 @@ import request from 'request';
 let getIceTurnServer = () => {
   return new Promise(async (resolve, reject) => {
     // Node Get ICE STUN and TURN list
-    let o = {
-      format: "urls",
-    };
+    // let o = {
+    //   format: "urls",
+    // };
 
-    let bodyString = JSON.stringify(o);
+    // let bodyString = JSON.stringify(o);
 
 
-    let options = {
-      url: 'https://global.xirsys.net/_turn/MyFirstApp',
-      // host: "global.xirsys.net",
-      // path: "/_turn/MyFirstApp",
-      method: "PUT",
-      headers: {
-        Authorization:
-          "Basic " +
-          Buffer.from(
-            "phonggenius99:ad8c5890-da8d-11eb-8944-0242ac130002"
-          ).toString("base64"),
-        "Content-Type": "application/json",
-        "Content-Length": bodyString.length,
-      },
-    };
+    // let options = {
+    //   url: 'https://global.xirsys.net/_turn/MyFirstApp',
+    //   // host: "global.xirsys.net",
+    //   // path: "/_turn/MyFirstApp",
+    //   method: "PUT",
+    //   headers: {
+    //     Authorization:
+    //       "Basic " +
+    //       Buffer.from(
+    //         "phonggenius99:ad8c5890-da8d-11eb-8944-0242ac130002"
+    //       ).toString("base64"),
+    //     "Content-Type": "application/json",
+    //     "Content-Length": bodyString.length,
+    //   },
+    // };
 
-    // call request to get ice turn
-    request(options, (error, response, body) => {
-      if(error) return reject(error);
+    // // call request to get ice turn
+    // request(options, (error, response, body) => {
+    //   if(error) return reject(error);
       
-      let bodyJSON = JSON.parse(body);
+    //   let bodyJSON = JSON.parse(body);
 
-      resolve(bodyJSON.v.iceServers)
-    })
+    //   resolve(bodyJSON.v.iceServers)
+    // })
+
+    resolve([]);
   });
 };
 
