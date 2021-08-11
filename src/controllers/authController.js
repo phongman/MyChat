@@ -58,7 +58,7 @@ let verifyAccount = async (req, res) => {
     return res.redirect("/login-register");
     // res.status(200).json(sucessArr);
   } catch (error) {
-    errorArr.push(err);
+    errorArr.push(error);
     req.flash("errors", errorArr);
     return res.redirect("/login-register");
     // res.status(500).json(errorArr)

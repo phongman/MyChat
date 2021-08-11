@@ -33,7 +33,7 @@ $(document).ready(function () {
       });
 
     if (!targetUsers.length) {
-      alertify.notify("No more message", "error", 7);
+      alertify.notify("Không còn thông báo nào", "error", 7);
       return false;
     }
 
@@ -49,7 +49,7 @@ $(document).ready(function () {
         targetUsers.push($(noti).data("uid"));
       });
     if (!targetUsers.length) {
-      alertify.notify("No more message", "error", 7);
+      alertify.notify("Không còn thông báo nào", "error", 7);
       return false;
     }
 

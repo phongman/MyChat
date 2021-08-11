@@ -1,6 +1,6 @@
 import express from "express";
-import { home, auth, user, contact, notification, message } from "../controllers";
-import { authValid, userValid, contactValid, messageValid } from "../validation";
+import { home, auth, user, contact, notification, message, groupChat } from "../controllers";
+import { authValid, userValid, contactValid, messageValid, groupChatValid } from "../validation";
 import passport from "passport";
 import initPassportLocal from "../controllers/passport/local";
 import initPassportFacebook from "../controllers/passport/facebook";
@@ -89,6 +89,7 @@ let initRoutes = (app) => {
   router.get("/contact/read-more-contacts-received", auth.checkLoggedIn, contact.readMoreContactsReceived)
   router.put("/contact/accept-contact-received", auth.checkLoggedIn, contact.acceptContactReceived)
   router.put("/contact/remove-contact", auth.checkLoggedIn, contact.removeContact)
+  router.get("/contact/search-friends/:keyword", auth.checkLoggedIn, contactValid.searchFriends, contact.searchFriends)
 
   //notifications
   router.get("/notification/read-more", auth.checkLoggedIn, notification.readMore)
@@ -99,6 +100,8 @@ let initRoutes = (app) => {
   router.post("/message/add-new-image", auth.checkLoggedIn, message.addNewImage)
   router.post("/message/add-new-attachment", auth.checkLoggedIn, message.addNewAttachment)
   
+  //group-chat
+  router.post("/group-chat/add-new", auth.checkLoggedIn, groupChatValid.addNewGroup, groupChat.addNewGroup)
   return app.use("/", router);
 };
 

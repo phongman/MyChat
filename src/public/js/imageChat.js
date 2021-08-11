@@ -9,7 +9,7 @@ function imageChat(divId) {
       let limit = 1048576; /**1MB */
 
       if ($.inArray(fileData.type, mime) === -1) {
-        alertify.notify("File is not valid. Only allow jpg & png", "error", 7);
+        alertify.notify("Ảnh không hợp lệ", "error", 7);
 
         $(this).val(null);
 
@@ -17,7 +17,7 @@ function imageChat(divId) {
       }
 
       if (fileData.size > limit) {
-        alertify.notify("Max size is 1MB", "error", 7);
+        alertify.notify("Ảnh giới hạn 1MB", "error", 7);
 
         $(this).val(null);
 

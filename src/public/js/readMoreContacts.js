@@ -12,7 +12,7 @@ $(document).ready(function () {
               $("#link-read-more-contacts").css("display", "inline-block");
               $(".spin-read-more-contacts").css("display", "none");
   
-              alertify.notify("No more contacts", "error", 7);
+              alertify.notify("Không còn tin nhắn nào", "error", 7);
               return false;
           };
   

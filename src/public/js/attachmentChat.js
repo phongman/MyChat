@@ -7,7 +7,7 @@ function attachmentChat(divId) {
       let limit = 1048576; /**1MB */
 
       if (fileData.size > limit) {
-        alertify.notify("Max size is 1MB", "error", 7);
+        alertify.notify("Dung lượng file giới hạn 1MB", "error", 7);
 
         $(this).val(null);
 

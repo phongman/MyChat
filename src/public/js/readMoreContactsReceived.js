@@ -12,7 +12,7 @@ $(document).ready(function () {
             $("#link-read-more-contacts-received").css("display", "inline-block");
             $(".spin-read-more-contacts-received").css("display", "none");
   
-            alertify.notify("No more friends request", "error", 7);
+            alertify.notify("Không còn lời mời nào", "error", 7);
             return false;
           }
   

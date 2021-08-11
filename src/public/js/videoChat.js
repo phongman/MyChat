@@ -29,7 +29,7 @@ function closeVideoStream(stream) {
 $(document).ready(function() {
     // step 02: caller - user is offline
     socket.on("server-sent-listener-is-offline", function() {
-        alertify.notify("user is not online", "error", 7);
+        alertify.notify("Người dùng không online", "error", 7);
     })
 
     let iceServerList =  $("#ice-server-list").val();

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { truncateSync } from "fs";
 
 let Schema = mongoose.Schema;
 
@@ -122,6 +121,35 @@ UserSchema.statics = {
       { _id: 1, username: 1, address: 1, avatar: 1 }
     ).exec();
   },
+
+  /**
+   * 
+   * @param {array} friendIds 
+   * @param {string} keyword 
+   */
+  findAllToAddGroupChat(friendIds, keyword) {
+    return this.find(
+      {
+        $and: [
+          {
+            _id: { $in: friendIds },
+          },
+          {
+            "local.isActive": true,
+          },
+          {
+            $or: [
+              { username: { $regex: new RegExp(keyword, "i") } },
+              { "local.email": { $regex: new RegExp(keyword, "i") } },
+              { "facebook.email": { $regex: new RegExp(keyword, "i") } },
+              { "google.email": { $regex: new RegExp(keyword, "i") } },
+            ],
+          },
+        ],
+      },
+      { _id: 1, username: 1, address: 1, avatar: 1 }
+    ).exec();
+  }
 };
 
 UserSchema.methods = {

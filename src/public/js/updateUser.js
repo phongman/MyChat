@@ -13,7 +13,7 @@ function updateUserInfo() {
     let limit = 1048576; /**1MB */
 
     if ($.inArray(fileData.type, mime) === -1) {
-      alertify.notify("File is not valid. Only allow jpg & png", "error", 7);
+      alertify.notify("Ảnh không hợp lệ", "error", 7);
 
       $(this).val(null);
 
@@ -21,7 +21,7 @@ function updateUserInfo() {
     }
 
     if (fileData.size > limit) {
-      alertify.notify("Max size is 1MB", "error", 7);
+      alertify.notify("Ảnh giới hạn 1MB 1MB", "error", 7);
 
       $(this).val(null);
 
@@ -68,7 +68,7 @@ function updateUserInfo() {
       username.length < 3 ||
       username.length > 17
     ) {
-      alertify.notify("Username must be less than 3-17 characters", "error", 7);
+      alertify.notify("Username có độ dài 3-17 kí tự", "error", 7);
 
       $(this).val(originUserInfo.username);
 
@@ -111,7 +111,7 @@ function updateUserInfo() {
     let address = $(this).val();
 
     if (address.length < 3 || address.length > 30) {
-      alertify.notify("Address must be less than 3-30 characters", "error", 7);
+      alertify.notify("Địa chỉ có độ dài 3-30 kí tự", "error", 7);
 
       $(this).val(originUserInfo.address);
 
@@ -128,7 +128,7 @@ function updateUserInfo() {
     let regexPhone = new RegExp(/^(0)[0-9]{9,10}$/);
 
     if (!regexPhone.test(phone)) {
-      alertify.notify("Phone in range 10-11 characters", "error", 7);
+      alertify.notify("Số điện thoại từ 10-11 kí tự", "error", 7);
 
       $(this).val(originUserInfo.phone);
 
@@ -148,7 +148,7 @@ function updateUserInfo() {
     );
 
     if (!regexPassword.test(currentPassword)) {
-      alertify.notify("Invalid password", "error", 7);
+      alertify.notify("Mật khẩu có độ dài 8-30 kí tự gồm chữ hoa, chữ thường, kí tự đặc biệt", "error", 7);
 
       $(this).val(null);
 
@@ -168,7 +168,7 @@ function updateUserInfo() {
     );
 
     if (!regexPassword.test(newPassword)) {
-      alertify.notify("Invalid password", "error", 7);
+      alertify.notify("Mật khẩu có độ dài 8-30 kí tự gồm chữ hoa, chữ thường, kí tự đặc biệt", "error", 7);
 
       $(this).val(null);
 
@@ -184,7 +184,7 @@ function updateUserInfo() {
     let confirmNewPassword = $(this).val();
 
     if (!userUpdatePassword.newPassword) {
-      alertify.notify("New password is blank", "error", 7);
+      alertify.notify("Mật khẩu mới không được để trống", "error", 7);
 
       $(this).val(null);
 
@@ -194,7 +194,7 @@ function updateUserInfo() {
     }
 
     if (confirmNewPassword !== userUpdatePassword.newPassword) {
-      alertify.notify("Password not match", "error", 7);
+      alertify.notify("Mật khẩu không khớp", "error", 7);
 
       $(this).val(null);
 
@@ -338,7 +338,7 @@ $(document).ready(function () {
   $("#input-btn-update-user").bind("click", function () {
     if ($.isEmptyObject(userInfo) && !userAvatar) {
       alertify.notify(
-        "You have to change your information before update",
+        "Không có thông tin thay đổi",
         "error",
         7
       );
@@ -373,7 +373,7 @@ $(document).ready(function () {
       !userUpdatePassword.newPassword ||
       !userUpdatePassword.confirmNewPassword
     ) {
-      alertify.notify("You have to fill all information", "error", 7);
+      alertify.notify("Bạn phải điền đủ thông tin", "error", 7);
 
       return false;
     }

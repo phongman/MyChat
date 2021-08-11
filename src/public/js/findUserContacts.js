@@ -4,15 +4,15 @@ function callFindUsers(e) {
 
         const regexKeyword = new RegExp(/^[\s0-9a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ ]+$/)
 
-        // if(!keyword.length) {
-        //     alertify.notify("You havent fill search", "error", 7);
-        //     return false;
-        // }
+        if(!keyword.length) {
+            alertify.notify("Bạn chưa điền vào ô search", "error", 7);
+            return false;
+        }
 
-        // if(!regexKeyword.test(keyword)) {
-        //     alertify.notify("Wrong keyword", "error", 7)
-        //     return false;
-        // }
+        if(!regexKeyword.test(keyword)) {
+            alertify.notify("Từ khóa không hợp lệ", "error", 7)
+            return false;
+        }
 
         $.get(`/contact/find-users/${keyword}`, function (data) {
             $("#find-user ul").html(data);

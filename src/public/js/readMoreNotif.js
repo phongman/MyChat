@@ -12,7 +12,7 @@ $(document).ready(function () {
             $("#link-read-more-notif").css("display", "inline-block");
             $(".spin-read-more-notif").css("display", "none");
 
-            alertify.notify("No more message", "error", 7);
+            alertify.notify("Không còn thông báo nào", "error", 7);
             return false;
         };
 

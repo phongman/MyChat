@@ -55,7 +55,7 @@ let register = (email, password, gender, protocol, host) => {
 
 let verifyAccount = (token) => {
   return new Promise(async (resolve, reject) => {
-    let userByToken = await UserModel.findByToken();
+    let userByToken = await UserModel.findByToken(token);
 
     if(!userByToken) {
       return reject(transErrors.token_undefined)
