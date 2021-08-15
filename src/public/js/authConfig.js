@@ -8,7 +8,6 @@ function showRegisterForm() {
       $('.modal-title').html('Đăng ký tài khoản');
     });
     $('.error').removeClass('alert alert-danger').html('');
-  
   }
   
   function showLoginForm() {
@@ -34,5 +33,41 @@ function showRegisterForm() {
     setTimeout(function() {
       $('#loginModal').modal('show');
       showRegisterForm();
+    }, 230);
+  }
+
+  function cloneRegisterForm() {
+    $('.loginBox').fadeOut('fast', function() {
+      $('.registerBox').fadeIn('fast');
+      $('.login-footer').fadeOut('fast', function() {
+        $('.register-footer').fadeIn('fast');
+      });
+      $('.modal-title').html('Đăng ký tài khoản');
+    });
+  }
+
+  function cloneLoginForm() {
+    $('#loginModal .registerBox').fadeOut('fast', function() {
+      $('.loginBox').fadeIn('fast');
+      $('.register-footer').fadeOut('fast', function() {
+        $('.login-footer').fadeIn('fast');
+      });
+  
+      $('.modal-title').html('Đăng nhập');
+    });
+  }
+
+
+  function openLogin() {
+    setTimeout(function() {
+      $('#loginModal').modal('show');
+      cloneLoginForm();
+    }, 230);
+  }
+
+  function openRegister() {
+    setTimeout(function() {
+      $('#loginModal').modal('show');
+      cloneRegisterForm();
     }, 230);
   }

@@ -335,9 +335,79 @@ const addNewTextEmoji = (sender, receiverId, messageVal, isChatGroup) => {
   })
 }
 
+/** 
+ * @param {String} currentUserId 
+ * @param {Number} skipPersonal 
+ * @param {Number} skipGroup 
+ */
+
+const readMoreAllChat = (currentUserId, skipPersonal, skipGroup) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let contacts = await ContactModel.readMoreContacts(currentUserId, skipPersonal,LIMIT_NUMBER);
+
+      let userConversationsPromise = contacts.map(async (contact) => {
+        if (contact.contactId == currentUserId) {
+          let getUserContact = await UserModel.getUserDataById(contact.userId);
+          getUserContact.updatedAt = contact.updatedAt;
+          return getUserContact;
+        } else {
+          let getUserContact = await UserModel.getUserDataById(
+            contact.contactId
+          );
+          getUserContact.updatedAt = contact.updatedAt;
+          return getUserContact;
+        }
+      });
+
+      let userConversations = await Promise.all(userConversationsPromise);
+
+      let groupConversations = await ChatGroupModel.readMoreChatGroup(
+        currentUserId,
+        skipGroup,
+        LIMIT_NUMBER
+      );
+
+      let allConversations = userConversations.concat(groupConversations);
+
+      allConversations = _.sortBy(allConversations, (item) => {
+        return -item.updatedAt;
+      });
+
+
+      // get all message
+      let allConversationMessagePromise = allConversations.map( async (conversation) => {
+        conversation = conversation.toObject();
+
+        if(conversation.members) {
+          let messages = await MessageModel.getGroupMessages(conversation._id, LIMIT_MESSAGE);
+
+          conversation.messages = messages;
+        } else {
+          let messages = await MessageModel.getPersonalMessages(currentUserId, conversation._id, LIMIT_MESSAGE);
+
+          conversation.messages = messages;
+        }
+
+        return conversation;
+      });
+
+      let allConversationMessage = await Promise.all(allConversationMessagePromise);
+      allConversationMessage = _.sortBy(allConversationMessage, (item) => {
+        return -item.updatedAt;
+      });
+
+      resolve(allConversationMessage);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 module.exports = {
   getAllConversations,
   addNewTextEmoji,
   addNewImage,
-  addNewAttachment
+  addNewAttachment,
+  readMoreAllChat
 };

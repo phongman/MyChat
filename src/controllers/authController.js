@@ -21,7 +21,7 @@ const postRegister = async (req, res) => {
       errorArr.push(el.msg);
     });
 
-    req.flash("errors", errorArr);
+    req.flash("errors", { type: 'REGISTER', err: errorArr });
     return res.redirect("/login-register");
     // res.status(500).json({error: errorArr})
   }

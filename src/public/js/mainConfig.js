@@ -187,6 +187,10 @@ function bufferToBase64(buffer) {
   );
 }
 
+function resizeNiceScrollLeft() {
+  $(".left").getNiceScroll().resize();
+}
+
 $(document).ready(function () {
   // Hide số thông báo trên đầu icon mở modal contact
   showModalContacts();

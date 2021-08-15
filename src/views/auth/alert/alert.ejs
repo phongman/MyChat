@@ -1,13 +1,20 @@
 <% if(errors != "") {%>
     <% errors.forEach((el) => { %>
-        <script>openLoginModal()</script>
-        <div class="alert alert-danger"><%- el%></div>
+        <% if(el.type === 'REGISTER') { %> 
+            <script>openRegister()</script>
+            <% el.err.forEach((er) => { %>
+                <div class="error alert alert-danger"><%- er%></div>
+           <% }) %>
+        <% } else {%>
+            <script>openLogin()</script>
+            <div class="error alert alert-danger"><%- el%></div>
+        <% } %>
     <% });%>
 <% }%>
 
 <% if(success != "") {%>
     <% success.forEach((el) => { %>
-        <script>openLoginModal()</script>
+        <script>openLogin()</script>
         <div class="alert alert-success"><%- el%></div>
     <% });%>
 <% }%>

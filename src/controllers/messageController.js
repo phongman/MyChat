@@ -1,9 +1,19 @@
 import { validationResult } from "express-validator/check";
-import { message } from '../services';
-import multer from 'multer';
-import {app} from '../config/app';
-import { transErrors } from '../../lang/vi';
-import fsExtra from 'fs-extra';
+import { message } from "../services";
+import multer from "multer";
+import { app } from "../config/app";
+import { transErrors } from "../../lang/vi";
+import fsExtra from "fs-extra";
+import ejs from "ejs";
+import {
+  convertTimestampToHumanTime,
+  getLatestMessage,
+  bufferToBase64
+} from "../util/clientsUtil";
+import { promisify } from "util";
+
+// make ejs function renderFile available with async await
+const renderFile = promisify(ejs.renderFile).bind(ejs);
 
 const addNewTextEmoji = async (req, res) => {
   let errorArr = [];
@@ -21,20 +31,25 @@ const addNewTextEmoji = async (req, res) => {
 
   try {
     let sender = {
-        id: req.user._id,
-        name: req.user.username,
-        avatar: req.user.avatar,
-    }
+      id: req.user._id,
+      name: req.user.username,
+      avatar: req.user.avatar,
+    };
 
     let receiverId = req.body.uid;
     let messageVal = req.body.messageVal;
     let isChatGroup = req.body.isChatGroup;
 
-    let newMessage = await message.addNewTextEmoji(sender, receiverId, messageVal, isChatGroup);
+    let newMessage = await message.addNewTextEmoji(
+      sender,
+      receiverId,
+      messageVal,
+      isChatGroup
+    );
 
-    return res.status(200).send({message: newMessage});
+    return res.status(200).send({ message: newMessage });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send(error);
   }
 };
@@ -74,29 +89,36 @@ const addNewImage = (req, res) => {
 
     try {
       let sender = {
-          id: req.user._id,
-          name: req.user.username,
-          avatar: req.user.avatar,
-      }
-  
+        id: req.user._id,
+        name: req.user.username,
+        avatar: req.user.avatar,
+      };
+
       let receiverId = req.body.uid;
       let messageVal = req.file;
       let isChatGroup = req.body.isChatGroup;
-  
-      let newMessage = await message.addNewImage(sender, receiverId, messageVal, isChatGroup);
-  
+
+      let newMessage = await message.addNewImage(
+        sender,
+        receiverId,
+        messageVal,
+        isChatGroup
+      );
+
       console.log(`${app.image_message_directory}/${newMessage.file.fileName}`);
 
       // remove image cause image saved in mongo
-      await fsExtra.remove(`${app.image_message_directory}/${newMessage.file.fileName}`);
+      await fsExtra.remove(
+        `${app.image_message_directory}/${newMessage.file.fileName}`
+      );
 
-      return res.status(200).send({message: newMessage});
+      return res.status(200).send({ message: newMessage });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).send(error);
     }
-  })
-}
+  });
+};
 
 /**Attachment */
 let storageAttachmentChat = multer.diskStorage({
@@ -128,31 +150,90 @@ const addNewAttachment = (req, res) => {
 
     try {
       let sender = {
-          id: req.user._id,
-          name: req.user.username,
-          avatar: req.user.avatar,
-      }
-  
+        id: req.user._id,
+        name: req.user.username,
+        avatar: req.user.avatar,
+      };
+
       let receiverId = req.body.uid;
       let messageVal = req.file;
       let isChatGroup = req.body.isChatGroup;
-  
-      let newMessage = await message.addNewAttachment(sender, receiverId, messageVal, isChatGroup);
-  
-      // remove image cause image saved in mongo
-      await fsExtra.remove(`${app.attachment_message_directory}/${newMessage.file.fileName}`);
 
-      return res.status(200).send({message: newMessage});
+      let newMessage = await message.addNewAttachment(
+        sender,
+        receiverId,
+        messageVal,
+        isChatGroup
+      );
+
+      // remove image cause image saved in mongo
+      await fsExtra.remove(
+        `${app.attachment_message_directory}/${newMessage.file.fileName}`
+      );
+
+      return res.status(200).send({ message: newMessage });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).send(error);
     }
+  });
+};
 
-  })
-}
+const readMoreAllChat = async (req, res) => {
+  try {
+    let skipPersonal = +req.query.skipPersonal;
+    let skipGroup = +req.query.skipGroup;
+
+    let newAllConversation = await message.readMoreAllChat(
+      req.user._id,
+      skipPersonal,
+      skipGroup
+    );
+
+    let dataToRender = {
+      newAllConversation,
+      convertTimestampToHumanTime,
+      getLatestMessage,
+      bufferToBase64,
+      user: req.user,
+    };
+
+    let leftSideData = await renderFile(
+      "src/views/main/readMoreConversations/_leftSide.ejs",
+      dataToRender
+    );
+
+    let rightSideData = await renderFile(
+      "src/views/main/readMoreConversations/_rightSide.ejs",
+      dataToRender
+    );
+
+    let imageModalData = await renderFile(
+      "src/views/main/readMoreConversations/_imageModal.ejs",
+      dataToRender
+    );
+
+    let attachmentModalData = await renderFile(
+      "src/views/main/readMoreConversations/_attachmentModal.ejs",
+      dataToRender
+    );
+
+
+
+    return res.status(200).send({
+      leftSideData,
+      rightSideData,
+      imageModalData,
+      attachmentModalData
+    });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
 
 module.exports = {
   addNewTextEmoji,
   addNewImage,
-  addNewAttachment
+  addNewAttachment,
+  readMoreAllChat,
 };
