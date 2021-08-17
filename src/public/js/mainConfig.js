@@ -218,7 +218,9 @@ $(document).ready(function () {
   changeScreenChat();
 
   // auto focus first message
-  $("ul.people").find("li")[0].click();
+  if($("ul.people").find("li").length) {
+    $("ul.people").find("li")[0].click();
+  }
 
   $("#video-chat-group").bind("click", function() {
     alertify.notify("Not supported yet", "error", 7);

@@ -23,8 +23,6 @@ const findUserContact = async (req, res) => {
     return res.render("main/contact/sections/_findUserContacts", {users});
     //return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 };
@@ -40,8 +38,6 @@ const addNew = async (req, res) => {
 
     //return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 };
@@ -57,8 +53,6 @@ const removeContact = async (req, res) => {
 
     //return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 };
@@ -74,8 +68,6 @@ const removeRequestContactSent = async (req, res) => {
 
     //return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 };
@@ -91,8 +83,6 @@ const removeRequestContactReceived = async (req, res) => {
 
     //return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 };
@@ -105,8 +95,6 @@ const readMoreContacts = async (req, res) => {
 
     return res.status(200).send(newContactUsers);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 }
@@ -119,8 +107,6 @@ const readMoreContactsSent = async (req, res) => {
 
     return res.status(200).send(newContactUsers);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 }
@@ -133,8 +119,6 @@ const readMoreContactsReceived = async (req, res) => {
 
     return res.status(200).send(newContactUsers);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 }
@@ -145,8 +129,6 @@ const acceptContactReceived = async (req, res) => {
 
     return res.status(200).send({success: !!acceptReq});
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 }
@@ -173,8 +155,6 @@ const searchFriends = async (req, res) => {
     return res.render("main/groupChat/sections/_searchFriends", {users});
     //return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).send(error);
   }
 };

@@ -26,8 +26,6 @@ let initPassportGoogle = () => {
       },
       async (req, accessToken, refreshToken, profile, done) => {
         try {
-            console.log('profile', profile);
-
         let user = await UserModel.findByGoogleUid(profile.id);
 
           if (user) {
@@ -60,7 +58,6 @@ let initPassportGoogle = () => {
           );
 
         } catch (error) {
-          console.log(error);
           return done(
             null,
             false,

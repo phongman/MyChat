@@ -115,8 +115,6 @@ let markAllAsRead = (userId, targetUsers) => {
 
       resolve(true);
     } catch (error) {
-      console.log(error);
-
       reject(false);
     }
   });

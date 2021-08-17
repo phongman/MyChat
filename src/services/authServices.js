@@ -42,7 +42,6 @@ let register = (email, password, gender, protocol, host) => {
          resolve(transSuccess.user_created(user.local.email))
       })
       .catch(async err => {
-        console.log(err);
         // remove user
         await UserModel.removeById(user._id);
         

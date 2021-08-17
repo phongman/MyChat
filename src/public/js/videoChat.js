@@ -8,7 +8,6 @@ function videoChat(divId) {
             callerName: callerName
         }
 
-        console.log(dataToEmit);
         // step 01: caller - check user online
         socket.emit("caller-check-listener-online", dataToEmit)
     })

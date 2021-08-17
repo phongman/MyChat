@@ -49,7 +49,6 @@ const addNewTextEmoji = async (req, res) => {
 
     return res.status(200).send({ message: newMessage });
   } catch (error) {
-    console.log(error);
     return res.status(500).send(error);
   }
 };
@@ -105,8 +104,6 @@ const addNewImage = (req, res) => {
         isChatGroup
       );
 
-      console.log(`${app.image_message_directory}/${newMessage.file.fileName}`);
-
       // remove image cause image saved in mongo
       await fsExtra.remove(
         `${app.image_message_directory}/${newMessage.file.fileName}`
@@ -114,7 +111,6 @@ const addNewImage = (req, res) => {
 
       return res.status(200).send({ message: newMessage });
     } catch (error) {
-      console.log(error);
       return res.status(500).send(error);
     }
   });
@@ -173,7 +169,6 @@ const addNewAttachment = (req, res) => {
 
       return res.status(200).send({ message: newMessage });
     } catch (error) {
-      console.log(error);
       return res.status(500).send(error);
     }
   });
@@ -231,9 +226,55 @@ const readMoreAllChat = async (req, res) => {
   }
 };
 
+const readMore = async (req, res) => {
+  try {
+    let skipMessage = +req.query.skipMessage;
+    let targetId = req.query.targetId;
+    let chatInGroup = req.query.chatInGroup === "true";
+
+    let newMessages = await message.readMore(
+      req.user._id,
+      skipMessage,
+      targetId,
+      chatInGroup
+    );
+
+    let dataToRender = {
+      newMessages,
+      bufferToBase64,
+      user: req.user,
+      chatInGroup
+    };
+
+    let rightSideData = await renderFile(
+      "src/views/main/readMoreMessages/_rightSide.ejs",
+      dataToRender
+    );
+
+    let imageModalData = await renderFile(
+      "src/views/main/readMoreMessages/_imageModal.ejs",
+      dataToRender
+    );
+
+    let attachmentModalData = await renderFile(
+      "src/views/main/readMoreMessages/_attachmentModal.ejs",
+      dataToRender
+    );
+
+    return res.status(200).send({
+      rightSideData,
+      imageModalData,
+      attachmentModalData
+    });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
 module.exports = {
   addNewTextEmoji,
   addNewImage,
   addNewAttachment,
   readMoreAllChat,
+  readMore
 };

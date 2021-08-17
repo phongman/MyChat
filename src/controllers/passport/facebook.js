@@ -59,7 +59,6 @@ let initPassportFacebook = () => {
           );
 
         } catch (error) {
-          console.log(error);
           return done(
             null,
             false,

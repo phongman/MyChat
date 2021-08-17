@@ -26,8 +26,6 @@ import {
         };
   
         if (clients[data.contactId]) {
-            console.log('runnnn')
-
           emitNotifyToArray(
             clients,
             data.contactId,

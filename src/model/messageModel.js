@@ -50,7 +50,7 @@ MessageSchema.statics = {
         },
       ],
     })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .limit(limit)
       .exec();
   },
@@ -65,9 +65,49 @@ MessageSchema.statics = {
     return this.find({
       receiverId: conversationId
     })
-      .sort({createdAt: 1})
+      .sort({createdAt: -1})
       .limit(limit)
       .exec()
+  },
+
+  /**
+   * @param {String} conversationId 
+   * @param {Number} skip 
+   * @param {Number} limit 
+   * @returns 
+   */
+  readMoreGroupMessages(conversationId, skip, limit) {
+    return this.find({
+      receiverId: conversationId
+    })
+      .sort({createdAt: -1})
+      .skip(skip)
+      .limit(limit)
+      .exec()
+  },
+
+  /**
+   * get limited message
+   * @param {string} senderId currentUserId
+   * @param {string} receiverId idContact
+   * @param {Number} skip
+   * @param {Number} limit
+   */
+   readMorePersonalMessages(senderId, receiverId, skip, limit) {
+    return this.find({
+      $or: [
+        {
+          $and: [{ senderId: senderId }, { receiverId: receiverId }],
+        },
+        {
+          $and: [{ senderId: receiverId }, { receiverId: senderId }],
+        },
+      ],
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .exec();
   },
 };
 

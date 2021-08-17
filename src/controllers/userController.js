@@ -57,8 +57,6 @@ const updateAvatar = (req, res) => {
 
       return res.status(200).json(result);
     } catch (error) {
-      console.log(error);
-
       return res.status(500).json(error);
     }
   });
@@ -89,8 +87,6 @@ const updateInfo = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).json(error);
   }
 };
@@ -120,8 +116,6 @@ const updatePassword = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).json(error)
   }
 

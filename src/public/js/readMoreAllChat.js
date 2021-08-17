@@ -41,7 +41,10 @@ $(document).ready(function () {
 
           //Step09: update online
           socket.emit("check-status");
-  
+          
+          // call read more messages
+          readMoreMessages()
+
           $("#link-read-more-all-chat").css("display", "inline-block");
           $(".spin-read-more-all-chat").css("display", "none");
         }

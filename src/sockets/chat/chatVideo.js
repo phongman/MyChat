@@ -154,8 +154,6 @@ let chatVideo = (io) => {
       }
 
       if (clients[data.listenerId]) {
-        // console.log('goooooooooo');
-
         emitNotifyToArrayIncludeSender(
           clients,
           data.listenerId,
